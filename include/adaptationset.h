@@ -8,6 +8,7 @@
 #ifndef DASH_ADAPTATIONSET_H_
 #define DASH_ADAPTATIONSET_H_
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -37,13 +38,13 @@ class AdaptationSet: public RepresentationBase {
     const SegmentBase* GetSegmentBase() const;
     const SegmentList* GetSegmentList() const;
     const SegmentTemplate* GetSegmentTemplate() const;
-    const std::vector<Representation*>& GetRepresentation() const;
+    const std::vector<Representation*>& GetRepresentations() const;
     const std::string& GetXlinkHref() const;
     const std::string& GetXlinkActuate() const;
     const std::string& GetXlinkType() const;
     const std::string& GetXlinkShow() const;
-    uint32_t GetId() const;
-    uint32_t GetGroup() const;
+    std::optional<uint32_t> GetId() const;
+    std::optional<uint32_t> GetGroup() const;
     const std::string& GetLang() const;
     const std::string& GetContentType() const;
     const std::string& GetPar() const;
@@ -72,13 +73,13 @@ class AdaptationSet: public RepresentationBase {
     SegmentBase *segment_base_;
     SegmentList *segment_list_;
     SegmentTemplate *segment_template_;
-    std::vector<Representation*> representation_;
+    std::vector<Representation*> representations_;
     std::string xlink_href_;
     std::string xlink_actuate_;
     std::string xlink_type_;
     std::string xlink_show_;
-    uint32_t id_;
-    uint32_t group_;
+    std::optional<uint32_t> id_;
+    std::optional<uint32_t> group_;
     std::string lang_;
     std::string content_type_;
     std::string par_;

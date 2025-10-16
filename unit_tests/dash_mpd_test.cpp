@@ -78,7 +78,7 @@ TEST_CASE("liteDASH_mpdparser_mpd", "[dash_mpd_parser]") {
     dash::mpd::DASHParser dash_parser;
     std::unique_ptr<dash::mpd::MPD> mpdTree;
 
-    std::string xml = 
+    std::string xml =
       "<?xml version=\"1.0\"?>"
       "<MPD xmlns=\"urn:mpeg:dash:schema:mpd:2011\""
       "     profiles=\"urn:mpeg:dash:profile:isoff-main:2011\""
@@ -101,11 +101,11 @@ TEST_CASE("liteDASH_mpdparser_mpd", "[dash_mpd_parser]") {
     mpdTree = dash_parser.Parse(buffer, xml.length(), "");
 
     REQUIRE(mpdTree != nullptr);
-    REQUIRE(mpdTree->GetId() == "testId"); 
-    REQUIRE(mpdTree->GetType() == "static"); 
-    REQUIRE(mpdTree->GetAvailabilityStarttime() == "2015-03-24T1:10:50"); 
-    REQUIRE(mpdTree->GetAvailabilityEndtime() == "2015-03-24T1:10:50.123456"); 
-    REQUIRE(mpdTree->GetMediaPresentationDuration() == "P0Y1M2DT12H10M20.5S"); 
+    REQUIRE(mpdTree->GetId() == "testId");
+    REQUIRE(mpdTree->GetType() == "static");
+    REQUIRE(mpdTree->GetAvailabilityStarttime() == "2015-03-24T1:10:50");
+    REQUIRE(mpdTree->GetAvailabilityEndtime() == "2015-03-24T1:10:50.123456");
+    REQUIRE(mpdTree->GetMediaPresentationDuration() == "P0Y1M2DT12H10M20.5S");
 }
 
 /*
@@ -135,9 +135,9 @@ TEST_CASE("dash_mpdparser_various_duration_formats", "[dash_mpd_parser]") {
     REQUIRE(mpdTree != nullptr);
 
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
-    
-    REQUIRE(periods.size() == 8); 
-    
+
+    REQUIRE(periods.size() == 8);
+
     REQUIRE(periods[0]->GetId() == "Period0");
     REQUIRE(periods[0]->GetStart() == "PT1S");
 
@@ -225,9 +225,9 @@ TEST_CASE("dash_mpdparser_various_duration_formats_cpp", "[dash_mpd_parser]") {
     REQUIRE(mpdTree != nullptr);
 
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
-    
-    REQUIRE(periods.size() == 8); 
-    
+
+    REQUIRE(periods.size() == 8);
+
     REQUIRE(periods[0]->GetId() == "Period0");
     REQUIRE(periods[0]->GetStart() == "PT1S");
 
@@ -286,28 +286,28 @@ TEST_CASE("dash_mpdparser_get_audio_languages", "[dash_mpd_parser]") {
     std::vector<dash::mpd::AdaptationSet*> adaptationSets = period->GetAdaptationSets();
     REQUIRE(adaptationSets.size() == 3);
 
-    REQUIRE(adaptationSets[0]->GetId() == 1);
+    REQUIRE(*adaptationSets[0]->GetId() == 1);
     REQUIRE(adaptationSets[0]->GetMimeType() == "audio");
     REQUIRE(adaptationSets[0]->GetLang() == "en");
-    REQUIRE(adaptationSets[0]->GetRepresentation().size() == 1);
+    REQUIRE(adaptationSets[0]->GetRepresentations().size() == 1);
 
-    REQUIRE(adaptationSets[0]->GetRepresentation()[0]->GetId() == "1");
-    REQUIRE(adaptationSets[0]->GetRepresentation()[0]->GetBandwidth() == 250000);
+    REQUIRE(adaptationSets[0]->GetRepresentations()[0]->GetId() == "1");
+    REQUIRE(adaptationSets[0]->GetRepresentations()[0]->GetBandwidth() == 250000);
 
-    REQUIRE(adaptationSets[1]->GetId() == 2);
+    REQUIRE(*adaptationSets[1]->GetId() == 2);
     REQUIRE(adaptationSets[1]->GetMimeType() == "video/mp4");
-    REQUIRE(adaptationSets[1]->GetRepresentation().size() == 1);
+    REQUIRE(adaptationSets[1]->GetRepresentations().size() == 1);
 
-    REQUIRE(adaptationSets[1]->GetRepresentation()[0]->GetId() == "2");
-    REQUIRE(adaptationSets[1]->GetRepresentation()[0]->GetBandwidth() == 250000);
+    REQUIRE(adaptationSets[1]->GetRepresentations()[0]->GetId() == "2");
+    REQUIRE(adaptationSets[1]->GetRepresentations()[0]->GetBandwidth() == 250000);
 
-    REQUIRE(adaptationSets[2]->GetId() == 3);
+    REQUIRE(*adaptationSets[2]->GetId() == 3);
     REQUIRE(adaptationSets[2]->GetMimeType() == "audio");
     REQUIRE(adaptationSets[2]->GetLang() == "fr");
-    REQUIRE(adaptationSets[2]->GetRepresentation().size() == 1);
+    REQUIRE(adaptationSets[2]->GetRepresentations().size() == 1);
 
-    REQUIRE(adaptationSets[2]->GetRepresentation()[0]->GetId() == "3");
-    REQUIRE(adaptationSets[2]->GetRepresentation()[0]->GetBandwidth() == 250000);
+    REQUIRE(adaptationSets[2]->GetRepresentations()[0]->GetId() == "3");
+    REQUIRE(adaptationSets[2]->GetRepresentations()[0]->GetBandwidth() == 250000);
 }
 
 /*
@@ -330,8 +330,8 @@ TEST_CASE("dash_mpdparser_baseURL", "[dash_mpd_parser]") {
 
     // Getting BaseURLs
     std::vector<dash::mpd::BaseUrl*> baseURLs = mpdTree->GetBaseUrls();
-    
-    REQUIRE(baseURLs.size() == 1); 
+
+    REQUIRE(baseURLs.size() == 1);
 
     REQUIRE(baseURLs[0]->GetUrl() == "TestBaseURL");
     REQUIRE(baseURLs[0]->GetServiceLocation() == "TestServiceLocation");
@@ -353,11 +353,11 @@ TEST_CASE("dash_mpdparser_location", "[dash_mpd_parser]") {
         "  <Location>TestLocation</Location></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<std::string>& locations = mpdTree->GetLocations();
-    
+
     REQUIRE(locations.size() == 1);
     REQUIRE(locations[0] == "TestLocation");
 }
@@ -377,11 +377,11 @@ TEST_CASE("dash_mpdparser_metrics", "[dash_mpd_parser]") {
         "  <Metrics metrics=\"TestMetric\"></Metrics></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Metrics*>& metricsList = mpdTree->GetMetrics();
-    
+
     REQUIRE(metricsList.size() == 1);
     REQUIRE(metricsList[0]->GetMetrics() == "TestMetric");
 }
@@ -404,11 +404,11 @@ TEST_CASE("dash_mpdparser_metrics_range", "[dash_mpd_parser]") {
         "    </Range></Metrics></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Metrics*>& metrics = mpdTree->GetMetrics();
-    
+
     REQUIRE(metrics.size() == 1);
     REQUIRE(metrics[0]->GetRanges().size() == 1);
 
@@ -431,11 +431,11 @@ TEST_CASE("dash_mpdparser_metrics_reporting", "[dash_mpd_parser]") {
         "  <Metrics><Reporting></Reporting></Metrics></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Metrics*>& metrics = mpdTree->GetMetrics();
-    
+
     REQUIRE(metrics.size() == 1);
     REQUIRE(metrics[0]->GetReportings().size() == 1);
 }
@@ -458,11 +458,11 @@ TEST_CASE("dash_mpdparser_period", "[dash_mpd_parser]") {
         "          bitstreamSwitching=\"true\"></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Period*>& periods = mpdTree->GetPeriods();
-    
+
     REQUIRE(periods.size() == 1);
     REQUIRE(periods[0]->GetId() == "TestId");
 }
@@ -485,11 +485,11 @@ TEST_CASE("dash_mpdparser_period_baseURL", "[dash_mpd_parser]") {
         "  </Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Period*>& periods = mpdTree->GetPeriods();
-    
+
     REQUIRE(periods.size() == 1);
 
     const std::vector<dash::mpd::BaseUrl*>& baseUrls = periods[0]->GetBaseURLs();
@@ -519,18 +519,18 @@ TEST_CASE("dash_mpdparser_period_segmentBase", "[dash_mpd_parser]") {
         "    </SegmentBase></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Period*>& periods = mpdTree->GetPeriods();
-    
+
     REQUIRE(periods.size() == 1);
 
     dash::mpd::SegmentBase* segmentBase = periods[0]->GetSegmentBase();
-    
+
     REQUIRE(segmentBase->GetTimescale() == 123456);
     REQUIRE(segmentBase->GetPresentationTimeOffset() == 123456789);
-    REQUIRE(segmentBase->GetIndexRange()  == "100-200"); 
+    REQUIRE(segmentBase->GetIndexRange()  == "100-200");
     REQUIRE(segmentBase->HasIndexRangeExact() == true);
 }
 
@@ -551,11 +551,11 @@ TEST_CASE("dash_mpdparser_period_segmentList_multipleSegmentBaseType", "[dash_mp
         "    </SegmentList></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Period*>& periods = mpdTree->GetPeriods();
-    
+
     REQUIRE(periods.size() == 1);
 
     dash::mpd::SegmentList* segmentList = periods[0]->GetSegmentList();
@@ -585,11 +585,11 @@ TEST_CASE("dash_mpdparser_period_segmentList_multipleSegmentBaseType_segmentBase
         "    </SegmentList></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     const std::vector<dash::mpd::Period*>& periods = mpdTree->GetPeriods();
-    
+
     REQUIRE(periods.size() == 1);
 
     dash::mpd::SegmentList* segmentList = periods[0]->GetSegmentList();
@@ -622,7 +622,7 @@ TEST_CASE("dash_mpdparser_period_segmentList_multipleSegmentBaseType_segmentTime
 
     auto periods = mpdTree->GetPeriods();
     REQUIRE(periods.size() == 1);
-    
+
     auto segmentList = periods[0]->GetSegmentList();
     REQUIRE(segmentList != nullptr);
 
@@ -653,7 +653,7 @@ TEST_CASE("dash_mpdparser_period_segmentList_multipleSegmentBaseType_segmentTime
 
     auto periods = mpdTree->GetPeriods();
     REQUIRE(periods.size() == 1);
-    
+
     auto segmentList = periods[0]->GetSegmentList();
     REQUIRE(segmentList != nullptr);
 
@@ -744,7 +744,7 @@ TEST_CASE("dash_mpdparser_period_segmentTemplateWithPresentationTimeOffset", "[d
     dash::mpd::DASHParser dash_parser;
     std::unique_ptr<dash::mpd::MPD> mpdTree;
 
-    std::string xml = 
+    std::string xml =
         "<?xml version=\"1.0\"?>"
         "<MPD xmlns=\"urn:mpeg:dash:schema:mpd:2011\""
         "     profiles=\"urn:mpeg:dash:profile:isoff-main:2011\">"
@@ -840,10 +840,10 @@ TEST_CASE("dash_mpdparser_period_segmentTemplate_multipleSegmentBaseType_bitstre
     REQUIRE(mpdTree != nullptr);
 
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
-    REQUIRE(periods.size() == 1); 
+    REQUIRE(periods.size() == 1);
 
-    auto segmentTemplate = periods[0]->GetSegmentTemplate(); 
-    auto bitstreamSwitching = segmentTemplate->GetBitstreamSwitching(); 
+    auto segmentTemplate = periods[0]->GetSegmentTemplate();
+    auto bitstreamSwitching = segmentTemplate->GetBitstreamSwitching();
 
     REQUIRE(bitstreamSwitching->GetSourceURL() == "TestSourceURL");
 
@@ -883,18 +883,18 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_attributes", "[dash_mpd_parser]")
         "    </AdaptationSet></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     auto periods = mpdTree->GetPeriods();
-    
+
     REQUIRE(periods.size() == 1);
 
     auto adaptation_sets = periods[0]->GetAdaptationSets();
 
     REQUIRE(adaptation_sets.size() == 1);
 
-    REQUIRE(adaptation_sets[0]->GetId() == 7);
+    REQUIRE(*adaptation_sets[0]->GetId() == 7);
     REQUIRE(adaptation_sets[0]->GetGroup() == 8);
     REQUIRE(adaptation_sets[0]->GetLang() == "en");
     REQUIRE(adaptation_sets[0]->GetContentType() == "TestContentType");
@@ -978,13 +978,13 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representationBase", "[dash_mpd_p
 
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
 
-    REQUIRE(periods.size() == 1); 
+    REQUIRE(periods.size() == 1);
 
     dash::mpd::Period* period = periods[0];
     std::vector<dash::mpd::AdaptationSet*> adaptationSets = period->GetAdaptationSets();
 
     auto adaptation_sets = periods[0]->GetAdaptationSets();
-    
+
     REQUIRE(adaptation_sets.size() == 1);
 
     REQUIRE(adaptation_sets[0]->GetProfiles().size() == 1);
@@ -1025,16 +1025,16 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representationBase_framePacking",
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
 
     REQUIRE(mpdTree != nullptr);
-    
+
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
     REQUIRE(periods.size() == 1);
-    
+
     dash::mpd::Period* firstPeriod = periods[0];
     std::vector<dash::mpd::AdaptationSet*> adaptationSets = firstPeriod->GetAdaptationSets();
     REQUIRE(adaptationSets.size() == 1);
-    
+
     dash::mpd::AdaptationSet* firstAdaptationSet = adaptationSets[0];
-    std::vector<dash::mpd::Descriptor*> descriptors = firstAdaptationSet->GetRole(); 
+    std::vector<dash::mpd::Descriptor*> descriptors = firstAdaptationSet->GetRole();
     REQUIRE(firstAdaptationSet->GetFramePacking().size() == 1);
     REQUIRE(firstAdaptationSet->GetFramePacking()[0]->GetSchemeIdUri() == "TestSchemeIdUri");
     REQUIRE(firstAdaptationSet->GetFramePacking()[0]->GetValue() == "TestValue");
@@ -1155,7 +1155,7 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representationBase_contentProtect
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
     REQUIRE(adaptationSet != nullptr);
 
-    auto contentProtections = adaptationSet->GetContentProtections(); 
+    auto contentProtections = adaptationSet->GetContentProtections();
     REQUIRE(contentProtections.size() == 1);
 
     auto contentProtection = contentProtections[0];
@@ -1813,7 +1813,7 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representation", "[dash_mpd_parse
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
     REQUIRE(adaptationSet != nullptr);
 
-    auto representations = adaptationSet->GetRepresentation();
+    auto representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     dash::mpd::Representation* representation = representations[0];
@@ -1858,7 +1858,7 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representation_representationBase
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
     REQUIRE(adaptationSet != nullptr);
 
-    std::vector<dash::mpd::Representation*> representations = adaptationSet->GetRepresentation();
+    std::vector<dash::mpd::Representation*> representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     dash::mpd::Representation* representation = representations[0];
@@ -1898,7 +1898,7 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representation_baseURL", "[dash_m
     REQUIRE(adaptationSets.size() == 1);
 
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
-    const std::vector<dash::mpd::Representation*>& representations = adaptationSet->GetRepresentation();
+    const std::vector<dash::mpd::Representation*>& representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     dash::mpd::Representation* representation = representations[0];
@@ -1944,7 +1944,7 @@ TEST_CASE("dash_mpdparser_period_adaptationSet_representation_SubRepresentation"
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
     REQUIRE(adaptationSet != nullptr);
 
-    std::vector<dash::mpd::Representation*> representations = adaptationSet->GetRepresentation();
+    std::vector<dash::mpd::Representation*> representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     dash::mpd::Representation* representation = representations[0];
@@ -1969,7 +1969,7 @@ TEST_CASE("dash_mpdparser_period_subset", "[dash_mpd_parser]") {
       "  <Period><Subset contains=\"1\"></Subset></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
@@ -2052,7 +2052,7 @@ TEST_CASE("dash_mpdparser_isoff_ondemand_profile", "[dash_mpd_parser]") {
     REQUIRE(mpdTree != nullptr);
 
     auto profiles = mpdTree->GetProfiles();
-    REQUIRE(profiles.size() > 0); 
+    REQUIRE(profiles.size() > 0);
 
     bool hasOnDemandProfile = false;
     for (const auto& profile : profiles) {
@@ -2061,7 +2061,7 @@ TEST_CASE("dash_mpdparser_isoff_ondemand_profile", "[dash_mpd_parser]") {
             break;
         }
     }
-    
+
     REQUIRE(hasOnDemandProfile);
 }
 
@@ -2098,7 +2098,7 @@ TEST_CASE("dash_mpdparser_bitstreamSwitching_inheritance_from_period", "[dash_mp
       "      </Representation></AdaptationSet></Period></MPD>";
 
     mpdTree = dash_parser.Parse(xml.data(), xml.length(), "");
-    
+
     REQUIRE(mpdTree != nullptr);
 
     auto periods = mpdTree->GetPeriods();
@@ -2144,7 +2144,7 @@ TEST_CASE("dash_mpdparser_setup_streaming", "[dash_mpd_parser]") {
     dash::mpd::AdaptationSet* adapt_set = adaptationSets[0];
     REQUIRE(adapt_set != nullptr);
 
-    REQUIRE(adapt_set->GetId() == 1);
+    REQUIRE(*adapt_set->GetId() == 1);
 }
 
 /*
@@ -2211,15 +2211,15 @@ TEST_CASE("dash_mpdparser_adaptationSet_handling", "[dash_mpd_parser]") {
     REQUIRE(period0->GetId() == "Period0");
     std::vector<dash::mpd::AdaptationSet*> adaptationSetsPeriod0 = period0->GetAdaptationSets();
     REQUIRE(adaptationSetsPeriod0.size() == 1);
-    REQUIRE(adaptationSetsPeriod0[0]->GetId() == 1);
+    REQUIRE(*adaptationSetsPeriod0[0]->GetId() == 1);
 
     // Testing Period1
     dash::mpd::Period* period1 = periods[1];
     REQUIRE(period1->GetId() == "Period1");
     std::vector<dash::mpd::AdaptationSet*> adaptationSetsPeriod1 = period1->GetAdaptationSets();
     REQUIRE(adaptationSetsPeriod1.size() == 2);
-    REQUIRE(adaptationSetsPeriod1[0]->GetId() == 10);
-    REQUIRE(adaptationSetsPeriod1[1]->GetId() == 11);
+    REQUIRE(*adaptationSetsPeriod1[0]->GetId() == 10);
+    REQUIRE(*adaptationSetsPeriod1[1]->GetId() == 11);
 }
 
 /*
@@ -2253,9 +2253,9 @@ TEST_CASE("dash_mpdparser_representation_selection", "[dash_mpd_parser]") {
     REQUIRE(adaptationSets.size() == 1);
 
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
-    REQUIRE(adaptationSet->GetId() == 1);
+    REQUIRE(*adaptationSet->GetId() == 1);
 
-    auto representations = adaptationSet->GetRepresentation();
+    auto representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 2);
 
     REQUIRE(representations[0]->GetBandwidth() == 500000);
@@ -2306,7 +2306,7 @@ TEST_CASE("dash_mpdparser_activeStream_parameters", "[dash_mpd_parser]") {
     REQUIRE(adapt_set->GetHeight() == 240);
     REQUIRE(adapt_set->GetBitstreamSwitching() == true);
 
-    auto representations = adapt_set->GetRepresentation();
+    auto representations = adapt_set->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     auto representation = representations[0];
@@ -2374,7 +2374,7 @@ TEST_CASE("dash_mpdparser_get_streamPresentationOffset", "[dash_mpd_parser]") {
     auto segmentBase = adapt_set->GetSegmentBase();
     REQUIRE(segmentBase != nullptr);
 
-    auto representations = adapt_set->GetRepresentation();
+    auto representations = adapt_set->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     auto representation = representations[0];
@@ -2430,10 +2430,10 @@ TEST_CASE("dash_mpdparser_segments", "[dash_mpd_parser]") {
     REQUIRE(adaptationSets.size() == 1);
     dash::mpd::AdaptationSet* adaptationSet = adaptationSets[0];
     REQUIRE(adaptationSet != nullptr);
-    
-    auto representation = adaptationSets[0]->GetRepresentation();
-    auto* segmentList = representation[0]->GetSegmentList(); 
-    
+
+    auto representation = adaptationSets[0]->GetRepresentations();
+    auto* segmentList = representation[0]->GetSegmentList();
+
     REQUIRE(segmentList != nullptr);
     auto segmentUTL = segmentList->GetSegmentURLs();
     REQUIRE(segmentUTL.size() == 2);
@@ -2481,13 +2481,13 @@ TEST_CASE("dash_mpdparser_headers", "[dash_mpd_parser]") {
 
     std::vector<dash::mpd::Period*> periods = mpdTree->GetPeriods();
     REQUIRE(periods.size() == 1);
-    
+
     dash::mpd::Period* period = periods[0];
     const std::vector<dash::mpd::AdaptationSet*>& adaptationSets = period->GetAdaptationSets();
     REQUIRE(adaptationSets.size() == 1);
-    
+
     dash::mpd::AdaptationSet* adapt_set = adaptationSets[0];
-    auto representation = adaptationSets[0]->GetRepresentation();
+    auto representation = adaptationSets[0]->GetRepresentations();
     const auto* segmentBase = representation[0]->GetSegmentBase();
     REQUIRE(segmentBase != nullptr);
 }
@@ -2517,7 +2517,7 @@ TEST_CASE("dash_mpdparser_fragments", "[dash_mpd_parser]") {
 
     auto periods = mpdTree->GetPeriods();
     REQUIRE(periods.size() == 1);
-    
+
     auto period = periods[0];
     REQUIRE(period != nullptr);
 
@@ -2528,7 +2528,7 @@ TEST_CASE("dash_mpdparser_fragments", "[dash_mpd_parser]") {
     REQUIRE(adaptationSet != nullptr);
     REQUIRE(adaptationSet->GetMimeType() == "video/mp4");
 
-    auto representations = adaptationSet->GetRepresentation();
+    auto representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 1);
 
     auto representation = representations[0];
@@ -2600,7 +2600,7 @@ TEST_CASE("dash_mpdparser_segment_timeline", "[dash_mpd_parser]") {
     REQUIRE(timelines[0]->GetRepeatCount() == 30);
 
     // Checking the Representation
-    auto representations = adaptationSet->GetRepresentation();
+    auto representations = adaptationSet->GetRepresentations();
     REQUIRE(representations.size() == 1);
     auto representation = representations[0];
 

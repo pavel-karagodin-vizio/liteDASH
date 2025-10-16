@@ -36,6 +36,11 @@ Representation::~Representation() {
   delete (segment_list_);
 }
 
+const AdaptationSet* Representation::GetAdaptationSet() const
+{
+    return adaptation_set_;
+}
+
 const std::vector<BaseUrl*>& Representation::GetBaseURLs() const {
   return base_urls_;
 }

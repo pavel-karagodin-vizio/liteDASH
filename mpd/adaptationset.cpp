@@ -24,7 +24,7 @@ AdaptationSet::AdaptationSet() :
 		RepresentationBase("AdaptationSet"), segment_base_(NULL),
     segment_list_(NULL), segment_template_(NULL), xlink_href_(""),
     xlink_actuate_("onRequest"), xlink_type_(""), xlink_show_(""),
-    id_(0), lang_(""), content_type_(""), par_(""), min_bandwidth_(0),
+    lang_(""), content_type_(""), par_(""), min_bandwidth_(0),
     max_bandwidth_(0), min_width_(0), max_width_(0), min_height_(0),
     max_height_(0), min_framerate_(""), max_framerate_(""),
     segment_alignment_(false), subsegment_alignment_(false),
@@ -44,8 +44,8 @@ AdaptationSet::~AdaptationSet() {
 		delete (content_component_.at(i));
 	for (size_t i = 0; i < base_urls_.size(); i++)
 		delete (base_urls_.at(i));
-	for (size_t i = 0; i < representation_.size(); i++)
-		delete (representation_.at(i));
+	for (size_t i = 0; i < representations_.size(); i++)
+		delete (representations_.at(i));
 
 	delete (segment_base_);
 	delete (segment_list_);
@@ -88,8 +88,8 @@ const SegmentTemplate* AdaptationSet::GetSegmentTemplate() const {
 	return segment_template_;
 }
 
-const std::vector<Representation*>& AdaptationSet::GetRepresentation() const {
-	return representation_;
+const std::vector<Representation*>& AdaptationSet::GetRepresentations() const {
+	return representations_;
 }
 
 const std::string& AdaptationSet::GetXlinkHref() const {
@@ -108,11 +108,11 @@ const std::string& AdaptationSet::GetXlinkShow() const {
 	return xlink_show_;
 }
 
-uint32_t AdaptationSet::GetId() const {
+std::optional<uint32_t> AdaptationSet::GetId() const {
 	return id_;
 }
 
-uint32_t AdaptationSet::GetGroup() const {
+std::optional<uint32_t> AdaptationSet::GetGroup() const {
 	return group_;
 }
 

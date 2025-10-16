@@ -22,11 +22,13 @@ class SegmentBase;
 class SegmentList;
 class SegmentTemplate;
 class SubRepresentation;
+class AdaptationSet;
 
 class Representation: public RepresentationBase {
   public:
     Representation();
     ~Representation();
+    const AdaptationSet* GetAdaptationSet() const;
     const std::vector<BaseUrl*>& GetBaseURLs() const;
     const std::vector<ExtendedBandwidth*>& GetExtendedBandwidths() const;
     const std::vector<SubRepresentation*>& GetSubRepresentations() const;
@@ -42,6 +44,7 @@ class Representation: public RepresentationBase {
     const std::vector<std::string>& GetMediaStreamStructureId() const;
 
   private:
+    const AdaptationSet* adaptation_set_;
     std::vector<BaseUrl*> base_urls_;
     std::vector<ExtendedBandwidth*> extended_bandwidths_;
     std::vector<SubRepresentation*> sub_representations_;
@@ -57,6 +60,7 @@ class Representation: public RepresentationBase {
     std::vector<std::string> media_stream_structureId_;
 
     friend class RepresentationElementParser;
+    friend class AdaptationSetElementParser;
 };
 
 } // namespace mpd

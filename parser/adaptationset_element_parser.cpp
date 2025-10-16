@@ -98,7 +98,8 @@ void AdaptationSetElementParser::AttachChildElementToParent(ElementBase *parent,
   AdaptationSet *as_elem = static_cast<AdaptationSet*>(parent);
   const std::string &child_name = child->GetName();
   if (child_name == "Representation") {
-    as_elem->representation_.push_back(static_cast<Representation*>(child));
+    as_elem->representations_.push_back(static_cast<Representation*>(child));
+    as_elem->representations_.back()->adaptation_set_ = as_elem;
   } else if (child_name == "BaseURL") {
     as_elem->base_urls_.push_back(static_cast<BaseUrl*>(child));
   } else if (child_name == "ContentComponent") {
